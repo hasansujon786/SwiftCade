@@ -1,11 +1,19 @@
 import SwiftTUI
 
+struct BoxSize {
+  let width: Int
+  let height: Int
+}
+
+let defaultBoxSize = BoxSize(width: 11, height: 5)
+let boardCellCount = 3
+
 struct NumberBoxView: View {
   let number: Int
   let textColor: Color
   let boxColor: Color
-  var width: Int = 11
-  var height: Int = 5
+  var width: Int = defaultBoxSize.width
+  var height: Int = defaultBoxSize.height
 
   var body: some View {
     VStack(spacing: 0) {
@@ -37,6 +45,9 @@ struct MovingBoxView: View {
   @State private var isMoving: Bool = false
   @State private var runID: Int = 0
 
+  private let frameSize = BoxSize(
+    width: defaultBoxSize.width * boardCellCount, height: defaultBoxSize.height * boardCellCount)
+
   private let maxOffsetX = 22
   private let maxOffsetY = 10
 
@@ -51,7 +62,7 @@ struct MovingBoxView: View {
         // Track placeholder: defines the layout size
         Rectangle()
           .fill(.clear)
-          .frame(width: 33, height: 15).offset(x: 0, y: 0)
+          .frame(width: frameSize.width, height: frameSize.height).offset(x: 0, y: 0)
 
         // Moving box on top
         NumberBoxView(number: 256, textColor: .black, boxColor: .green)
@@ -77,7 +88,7 @@ struct MovingBoxView: View {
         // NumberBoxView(number: 256, textColor: .black, boxColor: .green)
         //   .offset(x: 22, y: 10)
       }
-      .frame(width: 35, height: 17)
+      .frame(width: frameSize.width + 2, height: frameSize.height + 2)
       .border()
 
       // Controls
